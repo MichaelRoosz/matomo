@@ -6,6 +6,6 @@ Katana is based on (a fork of) [Matomo Web Analytics](https://matomo.org), optim
 
 Currently these features are being developed:
 
-- optimized data structure, removing the 4294967295 actions limit
+- optimized data structure, removing the four billion actions limit
 - support for [Clickhouse](https://clickhouse.com/)
 - improved Docker support
