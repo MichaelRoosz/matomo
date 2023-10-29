@@ -1,4 +1,4 @@
-# Katana Web Anayltics (fork of Matomo)
+# Katana Web Analytics (fork of Matomo)
 
 ## Description
 
