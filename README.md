@@ -1,8 +1,8 @@
-# Katana Web Analytics (based on Matomo Web Analytics)
+# Katana Web Analytics (based on Matomo)
 
 ## Description
 
-Katana is a based on (a fork of) [Matomo Web Analytics](https://matomo.org), optimized for high-traffic websites.
+Katana is based on (a fork of) [Matomo Web Analytics](https://matomo.org), optimized for high-traffic websites.
 
 Currently these features are being developed:
 
