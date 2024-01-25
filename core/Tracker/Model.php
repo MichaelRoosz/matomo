@@ -403,7 +403,7 @@ class Model
     {
         [$updateParts, $sqlBind] = $this->fieldsToQuery($valuesToUpdate);
 
-        $parts = implode(', ',$updateParts);
+        $parts = implode(', ', $updateParts);
         $table = Common::prefixTable('log_visit');
 
         $sqlQuery = "UPDATE $table SET $parts WHERE idsite = ? AND idvisit = ?";
@@ -476,9 +476,17 @@ class Model
      *
      * @return array|bool|mixed
      */
-    public function findVisitor($idSite, $configId, $idVisitor, $userId, $fieldsToRead, $shouldMatchOneFieldOnly,
-                                $isVisitorIdToLookup, $timeLookBack, $timeLookAhead)
-    {
+    public function findVisitor(
+        $idSite,
+        $configId,
+        $idVisitor,
+        $userId,
+        $fieldsToRead,
+        $shouldMatchOneFieldOnly,
+        $isVisitorIdToLookup,
+        $timeLookBack,
+        $timeLookAhead
+    ) {
         $selectFields = implode(', ', $fieldsToRead);
 
         $select = "SELECT $selectFields ";

@@ -56,7 +56,7 @@ class Rules
     public static function getDoneStringFlagFor(array $idSites, $segment, $periodLabel, $plugin)
     {
         if (!empty($plugin)
-          && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
+            && !self::shouldProcessReportsAllPlugins($idSites, $segment, $periodLabel)
         ) {
             return self::getDoneFlagArchiveContainsOnePlugin($segment, $plugin);
         }
@@ -129,10 +129,10 @@ class Rules
     }
 
     public static function getMinTimeProcessedForInProgressArchive(
-      Date $dateStart,
-      \Piwik\Period $period,
-      Segment $segment,
-      Site $site
+        Date $dateStart,
+        \Piwik\Period $period,
+        Segment $segment,
+        Site $site
     ) {
         $todayArchiveTimeToLive = self::getPeriodArchiveTimeToLiveDefault($period->getLabel());
 
@@ -143,7 +143,7 @@ class Rules
         $isArchivingDisabled = Rules::isArchivingDisabledFor($idSites, $segment, $period->getLabel());
         if ($isArchivingDisabled) {
             if ($period->getNumberOfSubperiods() == 0
-              && $dateStart->getTimestamp() <= $now
+                && $dateStart->getTimestamp() <= $now
             ) {
                 // Today: accept any recent enough archive
                 $minimumArchiveTime = false;
@@ -216,7 +216,7 @@ class Rules
 
         if ($periodLabel === 'range') {
             if (isset($generalConfig['archiving_range_force_on_browser_request'])
-              && $generalConfig['archiving_range_force_on_browser_request'] == false
+                && $generalConfig['archiving_range_force_on_browser_request'] == false
             ) {
                 Log::debug("Not forcing archiving for range period.");
                 return $isArchivingEnabled;
@@ -231,8 +231,8 @@ class Rules
         }
 
         if (!$isArchivingEnabled
-          && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
-          && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
+            && (!self::isBrowserArchivingAvailableForSegments() || self::isSegmentPreProcessed($idSites, $segment))
+            && !SettingsServer::isArchivePhpTriggered() // Only applies when we are not running core:archive command
         ) {
             Log::debug("Archiving is disabled because of config setting browser_archiving_disabled_enforce=1 or because the segment is selected to be pre-processed.");
             return false;
@@ -326,9 +326,9 @@ class Rules
      * @return string[]
      */
     public static function getSelectableDoneFlagValues(
-      $includeInvalidated = true,
-      Parameters $params = null,
-      $checkAuthorizedToArchive = true
+        $includeInvalidated = true,
+        Parameters $params = null,
+        $checkAuthorizedToArchive = true
     ) {
         $possibleValues = array(ArchiveWriter::DONE_OK, ArchiveWriter::DONE_OK_TEMPORARY);
 
@@ -372,7 +372,7 @@ class Rules
 
         if (is_string($pluginArchivingSetting)) {
             $pluginArchivingSetting = explode(",", $pluginArchivingSetting);
-            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function($plugin){
+            $pluginArchivingSetting = array_filter($pluginArchivingSetting, function ($plugin) {
                 return Manager::getInstance()->isValidPluginName($plugin);
             });
         }

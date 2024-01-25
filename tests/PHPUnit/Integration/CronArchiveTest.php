@@ -38,9 +38,11 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForRepairInvalidationsIfNeeded
      */
-    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations($existingInvalidations, $archive,
-                                                                                $expectedInvalidations)
-    {
+    public function test_repairInvalidationsIfNeeded_insertsProperInvalidations(
+        $existingInvalidations,
+        $archive,
+        $expectedInvalidations
+    ) {
         $this->insertInvalidations($existingInvalidations);
 
         $cronArchive = new CronArchive();
@@ -337,9 +339,11 @@ class CronArchiveTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForInvalidateRecentDate
      */
-    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments($dateStr, $segments,
-                                                                                   $expectedInvalidationCalls)
-    {
+    public function test_invalidateRecentDate_invalidatesCorrectPeriodsAndSegments(
+        $dateStr,
+        $segments,
+        $expectedInvalidationCalls
+    ) {
         $idSite = Fixture::createWebsite('2019-04-04 03:45:45', 0, false, false, 1, null, null, 'Australia/Sydney');
 
         Rules::setBrowserTriggerArchiving(false);
@@ -475,7 +479,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
@@ -498,7 +502,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1,2, '2020-03-30', '2020-04-05', 'done', ArchiveWriter::DONE_INVALIDATED, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertTrue($actual);
     }
 
@@ -544,7 +548,7 @@ class CronArchiveTest extends IntegrationTestCase
             1, 1, 1, '2020-04-04', '2020-04-04', 'done', ArchiveWriter::DONE_OK, $tsArchived
         ]);
 
-        $actual =$archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
+        $actual = $archiver->canWeSkipInvalidatingBecauseThereIsAUsablePeriod($params);
         $this->assertFalse($actual);
     }
 
@@ -884,11 +888,21 @@ LOG;
     private function cleanOutput($output)
     {
         $output = explode("\n", $output);
-        $output = array_filter($output, function ($l) { return strpos($l, 'Skipping invalidated archive') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found archive with intersecting period') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found duplicate invalidated archive') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'No usable archive exists') === false; });
-        $output = array_filter($output, function ($l) { return strpos($l, 'Found invalidated archive we can skip (no visits)') === false; });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Skipping invalidated archive') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found archive with intersecting period') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found duplicate invalidated archive') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'No usable archive exists') === false;
+        });
+        $output = array_filter($output, function ($l) {
+            return strpos($l, 'Found invalidated archive we can skip (no visits)') === false;
+        });
         $output = implode("\n", $output);
         return $output;
     }

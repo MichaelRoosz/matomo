@@ -203,14 +203,15 @@ class ArchiveProcessor
      *                   )
      * @api
      */
-    public function aggregateDataTableRecords($recordNames,
-                                              $maximumRowsInDataTableLevelZero = null,
-                                              $maximumRowsInSubDataTable = null,
-                                              $defaultColumnToSortByBeforeTruncation = null,
-                                              &$columnsAggregationOperation = null,
-                                              $columnsToRenameAfterAggregation = null,
-                                              $countRowsRecursive = true)
-    {
+    public function aggregateDataTableRecords(
+        $recordNames,
+        $maximumRowsInDataTableLevelZero = null,
+        $maximumRowsInSubDataTable = null,
+        $defaultColumnToSortByBeforeTruncation = null,
+        &$columnsAggregationOperation = null,
+        $columnsToRenameAfterAggregation = null,
+        $countRowsRecursive = true
+    ) {
         /** @var LoggerInterface $logger */
         $logger = StaticContainer::get(LoggerInterface::class);
 
@@ -706,7 +707,7 @@ class ArchiveProcessor
 
         $rowMetrics = $results->getFirstRow();
         if ($rowMetrics === false) {
-            $rowMetrics = new Row;
+            $rowMetrics = new Row();
         }
         $this->enrichWithUniqueVisitorsMetric($rowMetrics);
         $this->renameColumnsAfterAggregation($results, self::$columnsToRenameAfterAggregation);

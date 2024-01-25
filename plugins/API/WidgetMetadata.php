@@ -139,7 +139,8 @@ class WidgetMetadata
         return $item;
     }
 
-    private function sortWidgets($widgetA, $widgetB) {
+    private function sortWidgets($widgetA, $widgetB)
+    {
         $orderA = $widgetA['category']['order'];
         $orderB = $widgetB['category']['order'];
 
@@ -187,11 +188,12 @@ class WidgetMetadata
         }
 
         return array(
-            'id'    => (string) $category->getId(),
-            'name'  => $category->getDisplayName(),
-            'order' => $category->getOrder(),
-            'icon' => $category->getIcon(),
-            'help' => Piwik::translate($category->getHelp()),
+            'id'     => (string) $category->getId(),
+            'name'   => $category->getDisplayName(),
+            'order'  => $category->getOrder(),
+            'icon'   => $category->getIcon(),
+            'help'   => Piwik::translate($category->getHelp()),
+            'widget' => $category->getWidget() ?: null,
         );
     }
 
@@ -317,5 +319,4 @@ class WidgetMetadata
 
         return $ca;
     }
-
 }

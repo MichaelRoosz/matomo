@@ -45,7 +45,7 @@ class LogDeleter
      */
     public function deleteVisits($visitIds)
     {
-        $visitIds = array_map(function($visitid) {
+        $visitIds = array_map(function ($visitid) {
             return ['idvisit' => $visitid];
         }, $visitIds);
         $dataSubjects = StaticContainer::get(DataSubjects::class);
@@ -92,7 +92,9 @@ class LogDeleter
         $logsDeleted = 0;
         $logPurger = $this;
         $this->rawLogDao->forAllLogs('log_visit', $fields, $conditions, $iterationStep, function ($logs) use ($logPurger, &$logsDeleted, $afterChunkDeleted) {
-            $ids = array_map(function ($row) { return (int) (reset($row)); }, $logs);
+            $ids = array_map(function ($row) {
+                return (int)(reset($row));
+            }, $logs);
             sort($ids);
             $logsDeleted += $logPurger->deleteVisits($ids);
             if (!empty($afterChunkDeleted)) {

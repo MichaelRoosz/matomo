@@ -39,7 +39,7 @@
       <a
         v-else
         class="title"
-        href="{{ externalRawLink('https://matomo.org/changelog/') }}"
+        :href="externalRawLink('https://matomo.org/changelog/')"
         target="_blank"
         rel="noreferrer noopener"
       >
@@ -105,7 +105,7 @@ export default defineComponent({
           this.latestVersionAvailable || '',
           '<br /><a href="index.php?module=CoreUpdater&amp;action=newVersionAvailable">',
           '</a>',
-          externalLink('href="https://matomo.org/changelog/'),
+          externalLink('https://matomo.org/changelog/'),
           '</a>',
         );
       }

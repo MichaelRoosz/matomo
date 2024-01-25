@@ -150,9 +150,14 @@ class PivotByDimension extends BaseFilter
      * @param bool $isFetchingBySegmentEnabled Whether to allow fetching by segment.
      * @throws Exception if pivoting the report by a dimension is unsupported.
      */
-    public function __construct($table, $report, $pivotByDimension, $pivotColumn, $pivotByColumnLimit = false,
-                                $isFetchingBySegmentEnabled = true)
-    {
+    public function __construct(
+        $table,
+        $report,
+        $pivotByDimension,
+        $pivotColumn,
+        $pivotByColumnLimit = false,
+        $isFetchingBySegmentEnabled = true
+    ) {
         parent::__construct($table);
 
         Log::debug("PivotByDimension::%s: creating with [report = %s, pivotByDimension = %s, pivotColumn = %s, "
@@ -484,7 +489,9 @@ class PivotByDimension extends BaseFilter
         }
 
         // remove column sums from array so it can be used as a default row
-        $columnSet = array_map(function () { return false; }, $columnSet);
+        $columnSet = array_map(function () {
+            return false;
+        }, $columnSet);
 
         // make sure label column is first
         $columnSet = array('label' => false) + $columnSet;

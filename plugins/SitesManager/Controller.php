@@ -206,7 +206,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             }
         }
 
-        usort($trackingMethods, function($a, $b) {
+        usort($trackingMethods, function ($a, $b) {
             if ($a['isRecommended'] === $b['isRecommended']) {
                 return $a['priority'] === $b['priority'] ? 0 : ($a['priority'] < $b['priority'] ? -1 : 1);
             }
@@ -214,11 +214,11 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return $a['isRecommended'] ? -1 : 1;
         });
 
-        usort($othersInstructions, function($a, $b) {
+        usort($othersInstructions, function ($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
 
-        usort($instructionUrls, function($a, $b) {
+        usort($instructionUrls, function ($a, $b) {
             return strnatcmp($a['name'], $b['name']);
         });
 
@@ -312,7 +312,7 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         $view->matomoUrl = Url::getCurrentUrlWithoutFileName();
         return $view->render();
     }
-    
+
     private function renderOthersTab($othersInstructions): string
     {
         array_unshift(
@@ -369,9 +369,17 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             return '';
         }
 
-        $detectedCms = $this->siteContentDetector->getSiteContentDetectionById(reset($detectedCMSes));
+        $detectedCms = null;
 
-        if (null === $detectedCms) {
+        foreach ($detectedCMSes as $detected) {
+            $detectedCms = $this->siteContentDetector->getSiteContentDetectionById($detected);
+
+            if (null !== $detectedCms && !empty($detectedCms::getInstructionUrl())) {
+                break;
+            }
+        }
+
+        if (null === $detectedCms || empty($detectedCms::getInstructionUrl())) {
             return '';
         }
 

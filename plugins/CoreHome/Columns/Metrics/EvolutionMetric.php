@@ -82,9 +82,13 @@ class EvolutionMetric extends ProcessedMetric
      * @param DataTable|null $currentData The current datatable, optional but required to calculate the proportionate
      *                                    evolution values
      */
-    public function __construct($wrapped, ?DataTable $pastData = null, $evolutionMetricName = false, $quotientPrecision = 0,
-                                ?DataTable $currentData = null)
-    {
+    public function __construct(
+        $wrapped,
+        ?DataTable $pastData = null,
+        $evolutionMetricName = false,
+        $quotientPrecision = 0,
+        ?DataTable $currentData = null
+    ) {
         $this->wrapped = $wrapped;
         $this->isLowerBetter = Metrics::isLowerValueBetter($this->wrapped);
         $this->pastData = $pastData;
@@ -143,7 +147,7 @@ class EvolutionMetric extends ProcessedMetric
         $period = $this->pastData->getMetadata(DataTableFactory::TABLE_METADATA_PERIOD_INDEX);
         $row->setMetadata('ratio', $ratio);
         $row->setMetadata('currencySymbol', $row['label'] !== DataTable::ID_SUMMARY_ROW && $row['label'] !== DataTable::LABEL_TOTALS_ROW ? Site::getCurrencySymbolFor($row['label']) : API::getInstance()->getDefaultCurrency());
-        $row->setMetadata('previous_'.$columnName, $pastValue);
+        $row->setMetadata('previous_' . $columnName, $pastValue);
         $row->setMetadata('periodName', $period->getLabel());
         $row->setMetadata('previousRange', $period->getLocalizedShortString());
         $pastValue = ($pastValue * $ratio);
@@ -267,7 +271,6 @@ class EvolutionMetric extends ProcessedMetric
         }
 
         return round($ratio, 3);
-
     }
 
     public function getSemanticType(): ?string

@@ -36,7 +36,7 @@ class API extends \Piwik\Plugin\API
     {
         $dataTable = $this->getDataTable(Archiver::COUNTRY_RECORD_NAME, $idSite, $period, $date, $segment);
 
-        $dataTable->filter(function(DataTable $dt) {
+        $dataTable->filter(function (DataTable $dt) {
             if ($dt->getRowFromLabel('ti')) {
                 $dt->filter('GroupBy', array(
                     'label',
@@ -56,7 +56,13 @@ class API extends \Piwik\Plugin\API
         $dataTable->filter('ColumnCallbackAddMetadata', array('label', 'logo', __NAMESPACE__ . '\getFlagFromCode'));
         $dataTable->filter('ColumnCallbackReplace', array('label', __NAMESPACE__ . '\countryTranslate'));
 
-        $dataTable->queueFilter('ColumnCallbackAddMetadata', array(array(), 'logoHeight', function () { return 16; }));
+        $dataTable->queueFilter('ColumnCallbackAddMetadata', array(
+            array(),
+            'logoHeight',
+            function () {
+                return 16;
+            }
+        ));
 
         return $dataTable;
     }
@@ -90,7 +96,7 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTable->filter(function(DataTable $dt) use ($period, $date, $separator, $unk) {
+        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator, $unk) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -175,7 +181,7 @@ class API extends \Piwik\Plugin\API
         $separator = Archiver::LOCATION_SEPARATOR;
         $unk = Visit::UNKNOWN_CODE;
 
-        $dataTable->filter(function(DataTable $dt) use ($period, $date, $separator, $unk) {
+        $dataTable->filter(function (DataTable $dt) use ($period, $date, $separator, $unk) {
             $archiveDate = $dt->getMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
 
             // convert fips region codes to iso if required
@@ -322,8 +328,8 @@ class API extends \Piwik\Plugin\API
 
         $countryCodeList = $regionDataProvider->getCountryList();
 
-        array_walk($countryCodeList, function(&$item, $key) {
-            $item = Piwik::translate('Intl_Country_'.strtoupper($key));
+        array_walk($countryCodeList, function (&$item, $key) {
+            $item = Piwik::translate('Intl_Country_' . strtoupper($key));
         });
 
         return $countryCodeList;

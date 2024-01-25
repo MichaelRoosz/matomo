@@ -41,7 +41,7 @@ class FetchTranslations extends TranslationBase
         $plugin = $input->getOption('plugin');
         $slug = $input->getOption('slug');
 
-        $resource = $plugin ? 'plugin-'.strtolower($plugin) : 'matomo-base';
+        $resource = $plugin ? 'plugin-' . strtolower($plugin) : 'matomo-base';
 
         $weblateApi = new API($apiToken, $slug);
 
@@ -78,7 +78,7 @@ class FetchTranslations extends TranslationBase
                 $languageCodes[] = implode('_', $codeParts);
             }
 
-            $languageCodes = array_filter($languageCodes, function($code) {
+            $languageCodes = array_filter($languageCodes, function ($code) {
                 return !in_array($code, array('en', 'dev'));
             });
 

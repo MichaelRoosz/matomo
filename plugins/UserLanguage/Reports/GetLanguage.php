@@ -34,10 +34,10 @@ class GetLanguage extends Base
         $view->requestConfig->filter_sort_order  = 'desc';
     }
 
-    public function getRelatedReports() {
+    public function getRelatedReports()
+    {
         return array(
             ReportsProvider::factory('UserLanguage', 'getLanguageCode'),
         );
     }
-
 }

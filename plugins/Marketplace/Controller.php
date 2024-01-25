@@ -75,13 +75,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
      */
     private $passwordVerify;
 
-    public function __construct(LicenseKey $licenseKey,
-                                Plugins $plugins,
-                                Api\Client $marketplaceApi,
-                                Consumer $consumer,
-                                PluginInstaller $pluginInstaller,
-                                Environment $environment,
-                                PasswordVerifier $passwordVerify
+    public function __construct(
+        LicenseKey $licenseKey,
+        Plugins $plugins,
+        Api\Client $marketplaceApi,
+        Consumer $consumer,
+        PluginInstaller $pluginInstaller,
+        Environment $environment,
+        PasswordVerifier $passwordVerify
     ) {
         $this->licenseKey = $licenseKey;
         $this->plugins = $plugins;
@@ -131,6 +132,16 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
             'subscriptions' => $subscriptions,
             'loginUrl' => $loginUrl,
             'numUsers' => $this->environment->getNumUsers()
+        ));
+    }
+
+
+    public function manageLicenseKey()
+    {
+        Piwik::checkUserHasSuperUserAccess();
+
+        return $this->renderTemplate('@Marketplace/manageLicenseKey', array(
+            'hasValidLicenseKey' => $this->licenseKey->has() && $this->consumer->isValidConsumer(),
         ));
     }
 
@@ -322,7 +333,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
                 try {
 
                     $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
                 } catch (\Exception $e) {
 
                     $notification          = new Notification($e->getMessage());
@@ -439,7 +449,6 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
             try {
                 $this->pluginInstaller->installOrUpdatePluginFromMarketplace($pluginName);
-
             } catch (\Exception $e) {
 
                 $notification = new Notification($e->getMessage());
@@ -521,5 +530,4 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
 
         return $view;
     }
-
 }

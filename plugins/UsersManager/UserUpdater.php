@@ -12,7 +12,6 @@ use Piwik\API\Request;
 
 class UserUpdater
 {
-
     /**
      * Use this method if you have to update the user without having the ability to ask the user for a password confirmation
      * @param $userLogin
@@ -26,8 +25,7 @@ class UserUpdater
         $password = false,
         $email = false,
         $_isPasswordHashed = false
-    )
-    {
+    ) {
         API::$UPDATE_USER_REQUIRE_PASSWORD_CONFIRMATION = false;
         try {
             Request::processRequest('UsersManager.updateUser', [

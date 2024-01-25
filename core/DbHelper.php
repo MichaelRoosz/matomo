@@ -197,7 +197,7 @@ class DbHelper
      */
     public static function tableHasIndex($table, $indexName)
     {
-        $result = Db::get()->fetchOne('SHOW INDEX FROM '.$table.' WHERE Key_name = ?', [$indexName]);
+        $result = Db::get()->fetchOne('SHOW INDEX FROM ' . $table . ' WHERE Key_name = ?', [$indexName]);
         return !empty($result);
     }
 
@@ -305,7 +305,7 @@ class DbHelper
 
             $timeInMs = $limit * 1000;
             $timeInMs = (int) $timeInMs;
-            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME('.$timeInMs.') */ ';
+            $maxExecutionTimeHint = ' /*+ MAX_EXECUTION_TIME(' . $timeInMs . ') */ ';
 
             $sql = substr_replace($sql, 'SELECT ' . $maxExecutionTimeHint, $pos, strlen('SELECT'));
         }
@@ -325,9 +325,14 @@ class DbHelper
      *
      * @return string   Modified SQL query string with hint added
      */
-    public static function addOriginHintToQuery(string $sql, string $origin, ?Date $dateStart = null, ?Date $dateEnd = null,
-                                          ?array $sites = null, ?Segment $segment = null): string
-    {
+    public static function addOriginHintToQuery(
+        string $sql,
+        string $origin,
+        ?Date $dateStart = null,
+        ?Date $dateEnd = null,
+        ?array $sites = null,
+        ?Segment $segment = null
+    ): string {
         $select = 'SELECT';
         if ($origin && 0 === strpos(trim($sql), $select)) {
             $sql = trim($sql);
@@ -346,7 +351,30 @@ class DbHelper
 
         if ($segment && !$segment->isEmpty() && 0 === strpos(trim($sql), $select)) {
             $sql = trim($sql);
-            $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash(). ' */' . substr($sql, strlen($select));
+            $sql = 'SELECT /* ' . 'segmenthash ' . $segment->getHash() . ' */' . substr($sql, strlen($select));
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Add an optimizer hint to the query to set the first table used by the MySQL join execution plan
+     *
+     * https://dev.mysql.com/doc/refman/8.0/en/optimizer-hints.html#optimizer-hints-join-order
+     *
+     * @param string $sql       SQL query string
+     * @param string $prefix    Table prefix to be used as the first table in the plan
+     *
+     * @return string           Modified query string with hint added
+     */
+    public static function addJoinPrefixHintToQuery(string $sql, string $prefix): string
+    {
+        if (strpos(trim($sql), '/*+ JOIN_PREFIX(') === false) {
+            $select = 'SELECT';
+            if (0 === strpos(trim($sql), $select)) {
+                $sql = trim($sql);
+                $sql = 'SELECT /*+ JOIN_PREFIX(' . $prefix . ') */' . substr($sql, strlen($select));
+            }
         }
 
         return $sql;
@@ -365,5 +393,4 @@ class DbHelper
     {
         return (0 !== preg_match('/(^[a-zA-Z0-9]+([a-zA-Z0-9\_\.\-\+]*))$/D', $dbname));
     }
-
 }

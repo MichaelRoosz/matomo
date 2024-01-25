@@ -75,11 +75,12 @@ class Controller extends Plugin\ControllerAdmin
      * @param Plugins $marketplacePlugins
      * @param PasswordVerifier $passwordVerify
      */
-    public function __construct(Translator $translator,
-                                Plugin\SettingsProvider $settingsProvider,
-                                PluginInstaller $pluginInstaller,
-                                PasswordVerifier $passwordVerify,
-                                $marketplacePlugins = null
+    public function __construct(
+        Translator $translator,
+        Plugin\SettingsProvider $settingsProvider,
+        PluginInstaller $pluginInstaller,
+        PasswordVerifier $passwordVerify,
+        $marketplacePlugins = null
     ) {
         $this->translator = $translator;
         $this->settingsProvider = $settingsProvider;
@@ -117,7 +118,7 @@ class Controller extends Plugin\ControllerAdmin
         if (!$this->passwordVerify->isPasswordCorrect(
             Piwik::getCurrentUserLogin(),
             \Piwik\Request::fromRequest()->getStringParameter('confirmPassword')
-        )) {
+            )) {
             throw new \Exception($this->translator->translate('Login_LoginPasswordNotCorrect'));
         }
 
@@ -222,15 +223,14 @@ class Controller extends Plugin\ControllerAdmin
         $view->isMarketplaceEnabled = Marketplace::isMarketplaceEnabled();
         $view->isPluginsAdminEnabled = CorePluginsAdmin::isPluginsAdminEnabled();
 
-        $view->pluginsHavingUpdate    = [];
         $view->marketplacePluginNames = [];
+        $view->pluginsHavingUpdate    = [];
+        $view->pluginUpdateNonces     = [];
 
         if (Marketplace::isMarketplaceEnabled() && $this->marketplacePlugins) {
             try {
                 $view->marketplacePluginNames = $this->marketplacePlugins->getAvailablePluginNames($themesOnly);
-                $view->pluginsHavingUpdate    = $this->marketplacePlugins->getPluginsHavingUpdate();
-
-                $view->pluginUpdateNonces = [];
+                $view->pluginsHavingUpdate = $this->marketplacePlugins->getPluginsHavingUpdate();
                 foreach ($view->pluginsHavingUpdate as $name => $plugin) {
                     $view->pluginUpdateNonces[$name] = Nonce::getNonce($plugin['name']);
                 }
@@ -480,7 +480,6 @@ class Controller extends Plugin\ControllerAdmin
 
                 $this->redirectToIndex('CorePluginsAdmin', $actionToRedirect);
             }
-
         }
     }
 
@@ -499,7 +498,7 @@ class Controller extends Plugin\ControllerAdmin
         }
 
         if($this->isAllowedToTroubleshootAsSuperUser()) {
-            Access::doAsSuperUser(function() use ($redirectAfter) {
+            Access::doAsSuperUser(function () use ($redirectAfter) {
                 $this->doDeactivatePlugin($redirectAfter);
             });
         } else {
@@ -614,7 +613,8 @@ class Controller extends Plugin\ControllerAdmin
         // error again
         try {
             Filesystem::deleteAllCacheOnUpdate();
-        } catch (Exception $e) {}
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -646,5 +646,4 @@ class Controller extends Plugin\ControllerAdmin
         $this->pluginManager->deactivatePlugin($pluginName);
         $this->redirectAfterModification($redirectAfter);
     }
-
 }

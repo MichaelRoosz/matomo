@@ -112,7 +112,8 @@ class ArchivingDbAdapter
         }
     }
 
-    private function callFunction($function, ...$args) {
+    private function callFunction($function, ...$args)
+    {
 
         try {
             return call_user_func_array([$this->wrapped, $function], $args);
@@ -123,10 +124,8 @@ class ArchivingDbAdapter
             {
                 $this->logger->warning('Archiver query exceeded maximum execution time: {details}',
                     ['details' => json_encode($args, true)]);
-
             }
             throw $e;
         }
     }
-
 }

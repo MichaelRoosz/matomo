@@ -21,7 +21,6 @@ use Piwik\Plugin\ReportsProvider;
  */
 class Flattener extends DataTableManipulator
 {
-
     private $includeAggregateRows = false;
 
     /**
@@ -101,9 +100,15 @@ class Flattener extends DataTableManipulator
      * @param string $dimensionName
      * @param bool $parentLogo
      */
-    private function flattenRow(Row $row, $rowId, DataTable $dataTable, $level, $dimensionName,
-                                $labelPrefix = '', $parentLogo = false)
-    {
+    private function flattenRow(
+        Row $row,
+        $rowId,
+        DataTable $dataTable,
+        $level,
+        $dimensionName,
+        $labelPrefix = '',
+        $parentLogo = false
+    ) {
         $dimensions = $dataTable->getMetadata('dimensions');
 
         if (empty($dimensions)) {
@@ -231,5 +236,4 @@ class Flattener extends DataTableManipulator
 
         return $request;
     }
-
 }

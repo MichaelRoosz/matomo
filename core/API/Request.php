@@ -284,9 +284,9 @@ class Request
             ]);
 
             if (empty($response)) {
-               $response = new ResponseBuilder('console', $this->request);
+                $response = new ResponseBuilder('console', $this->request);
             }
-            
+
             $toReturn = $response->getResponseException($e);
         } finally {
             --self::$nestedApiInvocationCount;
@@ -491,8 +491,11 @@ class Request
             //
             // NOTE: this does not apply if the [General] enable_framed_allow_write_admin_token_auth INI
             // option is set.
-            throw new \Exception(Piwik::translate('Widgetize_ViewAccessRequired',
-                [Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/')]));
+            $ex = new \Piwik\Exception\Exception(Piwik::translate('Widgetize_ViewAccessRequired',
+                ['<a href="' . Url::addCampaignParametersToMatomoLink('https://matomo.org/faq/troubleshooting/faq_147/') .
+                    '" rel="noreferrer noopener">https://matomo.org/faq/troubleshooting/faq_147/</a>']));
+            $ex->setIsHtmlMessage();
+            throw $ex;
         }
     }
 

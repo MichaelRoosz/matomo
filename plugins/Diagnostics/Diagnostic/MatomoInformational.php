@@ -45,7 +45,8 @@ class MatomoInformational implements Diagnostic
         return $results;
     }
 
-    private function getInstallVersion() {
+    private function getInstallVersion()
+    {
         try {
             $version = DbHelper::getInstallVersion();
             if (empty($version)) {
@@ -56,5 +57,4 @@ class MatomoInformational implements Diagnostic
             return $e->getMessage();
         }
     }
-
 }

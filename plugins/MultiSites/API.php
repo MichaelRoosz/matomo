@@ -139,7 +139,6 @@ class API extends \Piwik\Plugin\API
             } else {
                 APISitesManager::getInstance()->getSitesWithAtLeastViewAccess($limit = false, $_restrictSitesToLogin);
             }
-
         } else {
             $sites = Request::processRequest('SitesManager.getPatternMatchSites',
                 array('pattern'   => $pattern,
@@ -303,14 +302,14 @@ class API extends \Piwik\Plugin\API
             }
         }
 
-        // move the site id to a metadata column 
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'group', function($idSite) {
+        // move the site id to a metadata column
+        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'group', function ($idSite) {
             if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
                 return '';
             }
             return Site::getGroupFor($idSite);
         }, array()));
-        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'main_url', function($idSite) {
+        $dataTable->queueFilter('MetadataCallbackAddMetadata', array('idsite', 'main_url', function ($idSite) {
             if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
                 return '';
             }
@@ -319,7 +318,7 @@ class API extends \Piwik\Plugin\API
 
         // set the label of each row to the site name
         if ($multipleWebsitesRequested) {
-            $dataTable->queueFilter('ColumnCallbackReplace', array('label', function($idSite) {
+            $dataTable->queueFilter('ColumnCallbackReplace', array('label', function ($idSite) {
                 if ($idSite == '-1') { // Others row might occur when `filter_truncate` API parameter is used
                     return Piwik::translate('General_Others');
                 }
@@ -341,17 +340,17 @@ class API extends \Piwik\Plugin\API
         ) {
             $dataTable->filter(
                 'ColumnCallbackDeleteRow',
-                array(
-                     self::NB_VISITS_METRIC,
-                     function ($value) {
-                         return $value == 0;
-                     }
-                )
+                [
+                    self::NB_VISITS_METRIC,
+                    function ($value) {
+                        return $value == 0;
+                    }
+                ]
             );
         }
 
         // Remove <ts_archived> row metadata, it's already been used by any filters that needed it
-        $dataTable->queueFilter(function($dataTable) {
+        $dataTable->queueFilter(function ($dataTable) {
             $dataTable->deleteRowsMetadata(DataTable::ARCHIVED_DATE_METADATA_NAME);
             $dataTable->deleteColumn('_metadata');
         });

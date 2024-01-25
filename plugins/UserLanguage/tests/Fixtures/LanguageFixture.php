@@ -26,7 +26,6 @@ class LanguageFixture extends Fixture
 
     public function tearDown(): void
     {
-
     }
 
     private function setUpWebsite()
@@ -37,7 +36,8 @@ class LanguageFixture extends Fixture
         }
     }
 
-    private function getBrowserLangs() {
+    private function getBrowserLangs()
+    {
         return array(
             'fr-be', 'ar_QA', 'fr-ch', 'pl', 'pl', 'th_TH', 'zh_SG', 'eu_ES',
             'sr_RS', 'el,fi', 'fr,en-us,en;q=', 'fr-be', 'en,en-us,en;q=',
@@ -46,7 +46,8 @@ class LanguageFixture extends Fixture
         );
     }
 
-    private function trackVisits() {
+    private function trackVisits()
+    {
 
         $tracker = self::getTracker(
             $this->idSite,
@@ -66,7 +67,5 @@ class LanguageFixture extends Fixture
 
             self::checkResponse($tracker->doTrackPageView("Viewing homepage"));
         }
-
     }
-
-} 
+}

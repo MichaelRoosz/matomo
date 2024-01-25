@@ -176,9 +176,15 @@ class ArchiveTableDaoTest extends IntegrationTestCase
         $this->assertEquals($expectedStats, $actualStats);
     }
 
-    private function insertArchive($tableMonth, $idSite, $period, $date1, $date2, $segment = false,
-                                   $doneValue = ArchiveWriter::DONE_OK)
-    {
+    private function insertArchive(
+        $tableMonth,
+        $idSite,
+        $period,
+        $date1,
+        $date2,
+        $segment = false,
+        $doneValue = ArchiveWriter::DONE_OK
+    ) {
         $this->insertNumericArchive($tableMonth, $idSite, $period, $date1, $date2, $segment, $doneValue);
         $this->insertBlobArchive($tableMonth, $idSite, $period, $date1, $date2, $segment);
     }
@@ -207,7 +213,7 @@ class ArchiveTableDaoTest extends IntegrationTestCase
 
     private function insertRow($type, $tableMonth, $idSite, $period, $date1, $date2, $name, $value)
     {
-        $table = Common::prefixTable($type.'_'.$tableMonth);
+        $table = Common::prefixTable($type . '_' . $tableMonth);
 
         $idArchive = (int)Db::fetchOne("SELECT MAX(idarchive) FROM $table") + 1;
 

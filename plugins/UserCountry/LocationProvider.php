@@ -316,7 +316,7 @@ abstract class LocationProvider
             $allInfo[$info['id']] = $info;
         }
 
-        uasort($allInfo, function($a, $b) {
+        uasort($allInfo, function ($a, $b) {
             if ($a['order'] == $b['order']) {
                 return strcmp($a['id'], $b['id']);
             }
@@ -406,7 +406,7 @@ abstract class LocationProvider
                 return $provider;
             }
         }
-        
+
         return null;
     }
 

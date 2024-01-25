@@ -80,9 +80,13 @@ class VisitRequestProcessor extends RequestProcessor
      */
     private $trackerAlwaysNewVisitor;
 
-    public function __construct(EventDispatcher $eventDispatcher, VisitorRecognizer $visitorRecognizer, Settings $userSettings,
-                                $visitStandardLength, $trackerAlwaysNewVisitor)
-    {
+    public function __construct(
+        EventDispatcher $eventDispatcher,
+        VisitorRecognizer $visitorRecognizer,
+        Settings $userSettings,
+        $visitStandardLength,
+        $trackerAlwaysNewVisitor
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->visitorRecognizer = $visitorRecognizer;
         $this->userSettings = $userSettings;
@@ -279,17 +283,17 @@ class VisitRequestProcessor extends RequestProcessor
     protected function lastUserIdWasSetAndDoesMatch(VisitProperties $visitProperties, Request $request)
     {
         $lastUserId = $visitProperties->getProperty('user_id');
-        
+
         if(empty($lastUserId)) {
             return true;
         }
-        
+
         $currentUserId = $request->getForcedUserId();
-        
+
         if(empty($currentUserId)) {
             return true;
         }
-        
+
         return $lastUserId === $currentUserId;
     }
 }

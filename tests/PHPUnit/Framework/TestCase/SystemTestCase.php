@@ -722,7 +722,7 @@ abstract class SystemTestCase extends TestCase
 
     protected function getTestRequestsCollection($api, $testConfig, $apiToCall)
     {
-       return new Collection($api, $testConfig, $apiToCall);
+        return new Collection($api, $testConfig, $apiToCall);
     }
 
     private function printComparisonFailures()
@@ -848,9 +848,7 @@ abstract class SystemTestCase extends TestCase
                 } catch( Exception $e) {
                     throw new Exception("error while inserting $sql into $table the data. SQl data: " . var_export($sql, true) . ", Bind array: " . var_export($bind, true) . ". Erorr was -> " . $e->getMessage());
                 }
-
             }
-
         }
     }
 
@@ -893,19 +891,23 @@ abstract class SystemTestCase extends TestCase
         return parent::hasDependencies();
     }
 
-    public static function setAllowedModulesToFilterApiResponse($api, $category){
+    public static function setAllowedModulesToFilterApiResponse($api, $category)
+    {
         self::$allowedModulesApiWise[$api] = $category;
     }
 
-    public static function getAllowedModulesToFilterApiResponse($api) {
+    public static function getAllowedModulesToFilterApiResponse($api)
+    {
         return (self::$allowedModulesApiWise[$api] ?? NULL);
     }
 
-    public static function setAllowedCategoriesToFilterApiResponse($api, $category){
+    public static function setAllowedCategoriesToFilterApiResponse($api, $category)
+    {
         self::$allowedCategoriesApiWise[$api] = $category;
     }
 
-    public static function getAllowedCategoriesToFilterApiResponse($api) {
+    public static function getAllowedCategoriesToFilterApiResponse($api)
+    {
         return (self::$allowedCategoriesApiWise[$api] ?? NULL);
     }
 

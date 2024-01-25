@@ -253,7 +253,7 @@ class Updater
 
                 $classNames[] = $className;
 
-                $migrationsForComponent = Access::doAsSuperUser(function() use ($className) {
+                $migrationsForComponent = Access::doAsSuperUser(function () use ($className) {
                     /** @var Updates $update */
                     $update = StaticContainer::getContainer()->make($className);
                     return $update->getMigrations($this);
@@ -320,7 +320,6 @@ class Updater
             } catch (UpdaterErrorException $e) {
                 $this->executeListenerHook('onError', array($componentName, $fileVersion, $e));
                 throw $e;
-
             } catch (\Exception $e) {
                 $warningMessages[] = $e->getMessage();
 
@@ -480,7 +479,7 @@ class Updater
 
         if (!empty($componentsWithUpdateFile)) {
 
-            Access::doAsSuperUser(function() use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
+            Access::doAsSuperUser(function () use ($componentsWithUpdateFile, &$coreError, &$deactivatedPlugins, &$errors, &$warnings) {
 
                 $pluginManager = \Piwik\Plugin\Manager::getInstance();
 
@@ -505,7 +504,6 @@ class Updater
                         }
                     }
                 }
-
             });
         }
 
@@ -590,7 +588,6 @@ class Updater
             $this->executeListenerHook('onStartExecutingMigration', array($file, $migration));
 
             $migration->exec();
-
         } catch (\Exception $e) {
             if (!$migration->shouldIgnoreError($e)) {
                 $message = sprintf("%s:\nError trying to execute the migration '%s'.\nThe error was: %s",

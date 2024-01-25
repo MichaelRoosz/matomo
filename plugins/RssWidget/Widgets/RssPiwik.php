@@ -30,7 +30,8 @@ class RssPiwik extends \Piwik\Widget\Widget
         $config->setName(self::getName());
     }
 
-    private function getFeed($URL){
+    private function getFeed($URL)
+    {
         $rss = new RssRenderer($URL);
         $rss->showDescription(true);
         return $rss->get();
@@ -42,7 +43,7 @@ class RssPiwik extends \Piwik\Widget\Widget
             return $this->getFeed('https://matomo.org/feed/');
         } catch (\Exception $e) {
             return $this->error($e);
-        }  
+        }
     }
 
     /**

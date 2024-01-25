@@ -194,11 +194,18 @@ class OptOutManager
      *
      * @return string
      */
-    public function getOptOutJSEmbedCode(string $matomoUrl, string $language, string $backgroundColor, string $fontColor,
-                                         string $fontSize, string $fontFamily, bool $applyStyling, bool $showIntro): string
-    {
+    public function getOptOutJSEmbedCode(
+        string $matomoUrl,
+        string $language,
+        string $backgroundColor,
+        string $fontColor,
+        string $fontSize,
+        string $fontFamily,
+        bool $applyStyling,
+        bool $showIntro
+    ): string {
         return '<div id="matomo-opt-out"></div>
-<script src="'.rtrim($matomoUrl, '/').'/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language='.$language.($applyStyling ? '&backgroundColor='.$backgroundColor.'&fontColor='.$fontColor.'&fontSize='.$fontSize.'&fontFamily='.$fontFamily : '').'&showIntro='.($showIntro ? '1' : '0').'"></script>';
+<script src="' . rtrim($matomoUrl, '/') . '/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=' . $language . ($applyStyling ? '&backgroundColor=' . $backgroundColor . '&fontColor=' . $fontColor . '&fontSize=' . $fontSize . '&fontFamily=' . $fontFamily : '') . '&showIntro=' . ($showIntro ? '1' : '0') . '"></script>';
     }
 
     /**
@@ -213,9 +220,14 @@ class OptOutManager
      *
      * @return string
      */
-    public function getOptOutSelfContainedEmbedCode(string $backgroundColor, string $fontColor, string $fontSize,
-                                                    string $fontFamily, bool $applyStyling, bool $showIntro): string
-    {
+    public function getOptOutSelfContainedEmbedCode(
+        string $backgroundColor,
+        string $fontColor,
+        string $fontSize,
+        string $fontFamily,
+        bool $applyStyling,
+        bool $showIntro
+    ): string {
 
         $cookiePath = Common::getRequestVar('cookiePath', '', 'string');
         $cookieDomain = Common::getRequestVar('cookieDomain', '', 'string');
@@ -231,11 +243,11 @@ class OptOutManager
 
         // Self contained code translations are static and always use the language of the user who generated the embed code
         $settings = array_merge($settings, $this->getTranslations());
-        $settingsString = 'var settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = ' . json_encode($settings) . ';';
 
         $styleSheet = $this->optOutStyling($fontSize, $fontColor, $fontFamily, $backgroundColor, true);
 
-$code = <<<HTML
+        $code = <<<HTML
 <div id="matomo-opt-out" style=""></div>
 <script>    
     var settings = {};         
@@ -248,7 +260,7 @@ $code = <<<HTML
 </script>
 HTML;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
-               str_replace('style=""', ($applyStyling ? 'style="'.$styleSheet.'"' : ''),
+               str_replace('style=""', ($applyStyling ? 'style="' . $styleSheet . '"' : ''),
                str_replace("var settings = {};", $settingsString, $code)));
     }
 
@@ -271,7 +283,7 @@ HTML;
      *
      * @return string
      */
-    public function getOptOutJS() : string
+    public function getOptOutJS(): string
     {
 
         $language = Common::getRequestVar('language', 'auto', 'string');
@@ -303,7 +315,7 @@ HTML;
         $translations = $this->getTranslations($language);
         $translations['OptOutErrorNoTracker'] = Piwik::translate('CoreAdminHome_OptOutErrorNoTracker', [], $language);
         $settings = array_merge($settings, $translations);
-        $settingsString = 'var settings = '.json_encode($settings).';';
+        $settingsString = 'var settings = ' . json_encode($settings) . ';';
 
         $styleSheet = $this->optOutStyling(null, null, null, null, true);
 
@@ -376,7 +388,6 @@ JS;
         return str_replace('window.MatomoConsent = {  };', $this->getOptOutCommonJS(),
             str_replace('stylecss', $styleSheet,
             str_replace("var settings = {};", $settingsString, $code)));
-
     }
 
     /**
@@ -384,7 +395,7 @@ JS;
      *
      * @return string
      */
-    private function getOptOutCommonJS() : string
+    private function getOptOutCommonJS(): string
     {
         /** @lang JavaScript */
         return <<<JS
@@ -493,7 +504,6 @@ JS;
             }
         };           
 JS;
-
     }
 
     /**
@@ -503,7 +513,7 @@ JS;
      *
      * @return array
      */
-    private function getTranslations(string $language = null) : array
+    private function getTranslations(string $language = null): array
     {
         return [
             'OptOutComplete'        => Piwik::translate('CoreAdminHome_OptOutComplete', [], $language),
@@ -609,9 +619,13 @@ JS;
      * @return string
      * @throws \Exception
      */
-    private function optOutStyling(?string $fontSize = null, ?string $fontColor = null, ?string $fontFamily = null,
-                                   ?string $backgroundColor = null, bool $noBody = false): string
-    {
+    private function optOutStyling(
+        ?string $fontSize = null,
+        ?string $fontColor = null,
+        ?string $fontFamily = null,
+        ?string $backgroundColor = null,
+        bool $noBody = false
+    ): string {
         $cssfontsize = ($fontSize ? : Request::fromRequest()->getStringParameter('fontSize', ''));
         $cssfontcolour = ($fontColor ? : Request::fromRequest()->getStringParameter('fontColor', ''));
         $cssfontfamily = ($fontFamily ? : Request::fromRequest()->getStringParameter('fontFamily', ''));
@@ -628,7 +642,7 @@ JS;
             'backgroundColor' => $cssbackgroundcolor
         );
         foreach ($hexstrings as $key => $testcase) {
-            if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase),array(3,6), true))) {
+            if ($testcase && !(ctype_xdigit($testcase) && in_array(strlen($testcase), array(3,6), true))) {
                 throw new \Exception("The URL parameter $key value of '$testcase' is not valid. Expected value is for example 'ffffff' or 'fff'.\n");
             }
         }

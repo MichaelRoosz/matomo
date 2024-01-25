@@ -63,7 +63,8 @@ function setPiwikDomainFromEnvVar()
 setPiwikDomainFromEnvVar();
 
 // setup container for tests
-function setupRootContainer($enable = false) {
+function setupRootContainer($enable = false)
+{
     // before running tests, delete the TestingEnvironmentVariables file, since it can indirectly mess w/
     // phpunit's class loading (if a test class is loaded in bootstrap.php, phpunit can't load it from a file,
     // so executing the tests in a file will fail)
@@ -71,7 +72,7 @@ function setupRootContainer($enable = false) {
         $vars = new TestingEnvironmentVariables();
         $vars->delete();
 
-    Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
+        Environment::setGlobalEnvironmentManipulator(new TestingEnvironmentManipulator($vars));
     }
 
     $rootTestEnvironment = new \Piwik\Application\Environment(null);
@@ -145,7 +146,7 @@ printTestDoxHint();
 function checkPiwikSetupForTests()
 {
     if (empty($_SERVER['REQUEST_URI'])
-      || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
+        || $_SERVER['REQUEST_URI'] == '@REQUEST_URI@'
     ) {
         echo "WARNING: for tests to pass, you must first:
 1) Install webserver on localhost, eg. apache
@@ -160,7 +161,6 @@ remote_addr = \"127.0.0.1\"
 Try again.";
         exit(1);
     }
-
 }
 
 function printTestDoxHint()

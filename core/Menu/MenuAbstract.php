@@ -25,7 +25,6 @@ use Piwik\Plugin\Manager as PluginManager;
  */
 abstract class MenuAbstract extends Singleton
 {
-
     protected $menu = null;
     protected $menuEntries = array();
     protected $menuEntriesToRemove = array();
@@ -104,9 +103,18 @@ abstract class MenuAbstract extends Singleton
      * @since 2.7.0
      * @api
      */
-    public function addItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false,
-                            $attribute = false, $help = false, $badgeCount = 0)
-    {
+    public function addItem(
+        $menuName,
+        $subMenuName,
+        $url,
+        $order = 50,
+        $tooltip = false,
+        $icon = false,
+        $onclick = false,
+        $attribute = false,
+        $help = false,
+        $badgeCount = 0
+    ) {
         // make sure the idSite value used is numeric (hack-y fix for #3426)
         if (isset($url['idSite']) && !is_numeric($url['idSite'])) {
             $idSites = API::getInstance()->getSitesIdWithAtLeastViewAccess();
@@ -151,9 +159,18 @@ abstract class MenuAbstract extends Singleton
      * @param int $order
      * @param bool|string $tooltip Tooltip to display.
      */
-    private function buildMenuItem($menuName, $subMenuName, $url, $order = 50, $tooltip = false, $icon = false, $onclick = false,
-                                   $attribute = false, $help = false, $badgeCount = 0)
-    {
+    private function buildMenuItem(
+        $menuName,
+        $subMenuName,
+        $url,
+        $order = 50,
+        $tooltip = false,
+        $icon = false,
+        $onclick = false,
+        $attribute = false,
+        $help = false,
+        $badgeCount = 0
+    ) {
         if (!isset($this->menu[$menuName])) {
             $this->menu[$menuName] = array(
                 '_hasSubmenu' => false,

@@ -43,6 +43,7 @@ class SiteContentDetector
         SiteContentDetectionAbstract::TYPE_CMS => [],
         SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
         SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+        SiteContentDetectionAbstract::TYPE_JS_CRASH_ANALYTICS => [],
         SiteContentDetectionAbstract::TYPE_OTHER => [],
     ];
 
@@ -75,7 +76,7 @@ class SiteContentDetector
         $classes = self::getAllSiteContentDetectionClasses();
 
         foreach ($classes as $className) {
-           $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
+            $instancesByType[$className::getContentType()][] = StaticContainer::get($className);
         }
 
         return $instancesByType;
@@ -120,6 +121,7 @@ class SiteContentDetector
             SiteContentDetectionAbstract::TYPE_CMS => [],
             SiteContentDetectionAbstract::TYPE_JS_FRAMEWORK => [],
             SiteContentDetectionAbstract::TYPE_CONSENT_MANAGER => [],
+            SiteContentDetectionAbstract::TYPE_JS_CRASH_ANALYTICS => [],
             SiteContentDetectionAbstract::TYPE_OTHER => [],
         ];
         $this->connectedConsentManagers = [];
@@ -141,9 +143,12 @@ class SiteContentDetector
      * @param int         $timeOut       How long to wait for the site to response, defaults to 5 seconds
      * @return void
      */
-    public function detectContent(array $detectContent = [],
-                                  ?int $idSite = null, ?array $siteResponse = null, int $timeOut = 5): void
-    {
+    public function detectContent(
+        array $detectContent = [],
+        ?int $idSite = null,
+        ?array $siteResponse = null,
+        int $timeOut = 5
+    ): void {
         $this->resetDetections();
 
         // If site data was passed in, then just run the detection checks against it and return.
@@ -302,9 +307,9 @@ class SiteContentDetector
                 $cacheData['detectedContent'][$type] = [];
             }
             foreach ($detections as $detectionId => $wasDetected)
-                if (null !== $wasDetected) {
-                    $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
-                }
+            if (null !== $wasDetected) {
+                $cacheData['detectedContent'][$type][$detectionId] = $wasDetected;
+            }
         }
 
         $cacheData['connectedConsentManagers'] = array_merge($cacheData['connectedConsentManagers'], $this->connectedConsentManagers);

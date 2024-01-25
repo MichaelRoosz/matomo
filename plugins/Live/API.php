@@ -160,11 +160,11 @@ class API extends \Piwik\Plugin\API
 
         if (Request::isCurrentApiRequestTheRootApiRequest() || !in_array(Request::getRootApiRequestMethod(), ['API.getSuggestedValuesForSegment', 'PrivacyManager.findDataSubjects'])) {
             if (is_array($idSites)) {
-                $filteredSites = array_filter($idSites, function($idSite) {
+                $filteredSites = array_filter($idSites, function ($idSite) {
                     return Live::isVisitorLogEnabled($idSite);
                 });
                 if (empty($filteredSites)) {
-                    throw new Exception('Visits log is deactivated for all given websites (idSite='.$idSite.').');
+                    throw new Exception('Visits log is deactivated for all given websites (idSite=' . $idSite . ').');
                 }
             } else {
                 Live::checkIsVisitorLogEnabled($idSites);
@@ -380,7 +380,7 @@ class API extends \Piwik\Plugin\API
      * @return DataTable
      * @throws Exception
      */
-    private function makeVisitorTableFromArray($data, $hasMoreVisits=null)
+    private function makeVisitorTableFromArray($data, $hasMoreVisits = null)
     {
         $dataTable = new DataTable();
 

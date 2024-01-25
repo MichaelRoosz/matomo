@@ -185,7 +185,7 @@ class HtmlTable extends Visualization
 
             if ($this->config->show_dimensions && $hasMultipleDimensions) {
 
-                $this->dataTable->filter(function($dataTable) use ($dimensions) {
+                $this->dataTable->filter(function ($dataTable) use ($dimensions) {
                     /** @var DataTable $dataTable */
                     $rows = $dataTable->getRows();
                     foreach ($rows as $row) {
@@ -197,7 +197,13 @@ class HtmlTable extends Visualization
 
                 # replace original label column with first dimension
                 $firstDimension = array_shift($dimensions);
-                $this->dataTable->filter('ColumnCallbackAddMetadata', array('label', 'combinedLabel', function ($label) { return $label; }));
+                $this->dataTable->filter('ColumnCallbackAddMetadata', array(
+                    'label',
+                    'combinedLabel',
+                    function ($label) {
+                        return $label;
+                    }
+                ));
                 $this->dataTable->filter('ColumnDelete', array('label'));
                 $this->dataTable->filter('ReplaceColumnNames', array(array($firstDimension => 'label')));
             }

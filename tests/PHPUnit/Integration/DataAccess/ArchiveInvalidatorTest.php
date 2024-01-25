@@ -420,7 +420,7 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     {
         //Updated for change to allow for multiple transactions to invalidate the same report without deadlock.
         $key = 'report_to_invalidate_2_2014-04-05' . '_' . getmypid();
-        $this->assertEmpty(Option::getLike('%'. $key . '%'));
+        $this->assertEmpty(Option::getLike('%' . $key . '%'));
 
         $keyStored = $this->rememberReport(2, '2014-04-05');
 
@@ -796,9 +796,17 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
     /**
      * @dataProvider getTestDataForMarkArchivesAsInvalidated
      */
-    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated($idSites, $dates, $period, $segment, $cascadeDown, $expectedIdArchives,
-                                                                                     $expectedInvalidatedArchives, $name = null, $addStoredSegments = false)
-    {
+    public function test_markArchivesAsInvalidated_MarksCorrectArchivesAsInvalidated(
+        $idSites,
+        $dates,
+        $period,
+        $segment,
+        $cascadeDown,
+        $expectedIdArchives,
+        $expectedInvalidatedArchives,
+        $name = null,
+        $addStoredSegments = false
+    ) {
         $this->insertArchiveRowsForTest();
 
         Rules::setBrowserTriggerArchiving(false);
@@ -2081,7 +2089,6 @@ class ArchiveInvalidatorTest extends IntegrationTestCase
         $this->invalidator->applyScheduledReArchiving();
         // should not end up having twice the amount of invalidations but delete existing
         $this->assertEquals($numInvalidations, $this->getNumInvalidations());
-
     }
     public function test_reArchiveReport_createsCorrectInvalidationEntries_ifNoReportSpecified()
     {

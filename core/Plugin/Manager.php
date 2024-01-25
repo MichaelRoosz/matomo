@@ -113,7 +113,7 @@ class Manager
     {
         $pluginsToLoad = $this->getActivatedPluginsFromConfig();
         if (!SettingsPiwik::isInternetEnabled()) {
-            $pluginsToLoad = array_filter($pluginsToLoad, function($name) {
+            $pluginsToLoad = array_filter($pluginsToLoad, function ($name) {
                 $plugin = Manager::makePluginClass($name);
                 return !$plugin->requiresInternetConnection();
             });
@@ -506,6 +506,34 @@ class Manager
 
         // assume default directory when plugin does not exist just yet
         return self::getPluginsDirectory() . $pluginName;
+    }
+
+    /**
+     * Returns the plugin directory path relative to Matomo's root directory.
+     *
+     * @param string $pluginName
+     * @return string
+     */
+    public static function getRelativePluginDirectory(string $pluginName): string
+    {
+        $result = self::getPluginDirectory($pluginName);
+
+        $matomoPath = rtrim(PIWIK_INCLUDE_PATH, '/') . '/';
+        $webroots = array_merge(
+            Manager::getAlternativeWebRootDirectories(),
+            [$matomoPath => '/']
+        );
+
+        foreach ($webroots as $webrootAbsolute => $webrootRelative) {
+            if (strpos($result, $webrootAbsolute) === 0) {
+                $result = str_replace($webrootAbsolute, $webrootRelative, $result);
+                break;
+            }
+        }
+
+        $result = ltrim($result, '/');
+
+        return $result;
     }
 
     /**
@@ -1235,7 +1263,7 @@ class Manager
         if (!class_exists($namespacedClass, false)) {
             throw new \Exception("The class $pluginClassName couldn't be found in the file '$path'");
         }
-        $newPlugin = new $namespacedClass;
+        $newPlugin = new $namespacedClass();
 
         if (!($newPlugin instanceof Plugin)) {
             throw new \Exception("The plugin $pluginClassName in the file $path must inherit from Plugin.");

@@ -31,7 +31,7 @@ function piwik_filter_truncate($string, $size)
     if (mb_strlen(html_entity_decode($string)) <= $size) {
         return $string;
     } else {
-        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){'.$size.'}/i', $string, $shortenString);
+        preg_match('/^(&(?:[a-z\d]+|#\d+|#x[a-f\d]+);|.){' . $size . '}/i', $string, $shortenString);
         return reset($shortenString) . "...";
     }
 }
@@ -42,7 +42,8 @@ function piwik_format_number($string, $minFractionDigits, $maxFractionDigits)
     return $formatter->format($string, $minFractionDigits, $maxFractionDigits);
 }
 
-function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false) {
+function piwik_escape_filter(Environment $env, $string, $strategy = 'html', $charset = null, $autoescape = false)
+{
 
     $string = twig_escape_filter($env, $string, $strategy, $charset, $autoescape);
 
@@ -303,7 +304,7 @@ class Twig
     private function getDefaultThemeLoader()
     {
         $themeDir = Manager::getPluginDirectory(\Piwik\Plugin\Manager::DEFAULT_THEME) . '/templates/';
-        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -321,7 +322,7 @@ class Twig
         if (!file_exists($themeDir)) {
             return false;
         }
-        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT.DIRECTORY_SEPARATOR);
+        $themeLoader = new FilesystemLoader(array($themeDir), PIWIK_DOCUMENT_ROOT . DIRECTORY_SEPARATOR);
 
         return $themeLoader;
     }
@@ -355,7 +356,6 @@ class Twig
             $template .= '</div>';
 
             return $template;
-
         }, array('is_safe' => array('html')));
         $this->twig->addFilter($notificationFunction);
     }
@@ -374,7 +374,6 @@ class Twig
             $string = SafeDecodeLabel::decodeLabelSafe($string);
 
             return $string;
-
         }, array('is_safe' => array('all')));
         $this->twig->addFilter($rawSafeDecoded);
     }

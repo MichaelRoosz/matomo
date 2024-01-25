@@ -179,12 +179,12 @@ class Model
     }
 
     public function getSitesAccessFromUserWithFilters(
-      $userLogin,
-      $limit = null,
-      $offset = 0,
-      $pattern = null,
-      $access = null,
-      $idSites = null
+        $userLogin,
+        $limit = null,
+        $offset = 0,
+        $pattern = null,
+        $access = null,
+        $idSites = null
     ) {
         $siteAccessFilter = new SiteAccessFilter($userLogin, $pattern, $access, $idSites);
 
@@ -206,10 +206,10 @@ class Model
         $selector = "a.access";
         if ($access) {
             $selector = 'b.access';
-            $joins .= " LEFT JOIN ". Common::prefixTable('access') ." b on a.idsite = b.idsite AND a.login = b.login";
+            $joins .= " LEFT JOIN " . Common::prefixTable('access') . " b on a.idsite = b.idsite AND a.login = b.login";
         }
 
-        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT('.$selector.' SEPARATOR "|") as access
+        $sql = 'SELECT SQL_CALC_FOUND_ROWS s.idsite as idsite, s.name as site_name, GROUP_CONCAT(' . $selector . ' SEPARATOR "|") as access
                   FROM ' . Common::prefixTable('access') . " a
                 $joins
                 $where
@@ -284,7 +284,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByInviteToken($token));
 
         return $token;
@@ -303,7 +302,6 @@ class Model
                 // endless loop in case there is some bug somewhere
                 throw new \Exception('Failed to generate token');
             }
-
         } while ($this->getUserByTokenAuth($token));
 
         return $token;
@@ -330,13 +328,13 @@ class Model
      * @throws \Piwik\Tracker\Db\DbException
      */
     public function addTokenAuth(
-      $login,
-      $tokenAuth,
-      $description,
-      $dateCreated,
-      $dateExpired = null,
-      $isSystemToken = false,
-      bool $secureOnly = false
+        $login,
+        $tokenAuth,
+        $description,
+        $dateCreated,
+        $dateExpired = null,
+        $isSystemToken = false,
+        bool $secureOnly = false
     ) {
         if (!$this->getUser($login)) {
             throw new \Exception('User ' . $login . ' does not exist');
@@ -763,13 +761,13 @@ class Model
      * @return array
      */
     public function getUsersWithRole(
-      $idSite,
-      $limit = null,
-      $offset = null,
-      $pattern = null,
-      $access = null,
-      $status = null,
-      $logins = null
+        $idSite,
+        $limit = null,
+        $offset = null,
+        $pattern = null,
+        $access = null,
+        $status = null,
+        $logins = null
     ) {
         $filter = new UserTableFilter($access, $idSite, $pattern, $status, $logins);
 

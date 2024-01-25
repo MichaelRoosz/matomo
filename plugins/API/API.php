@@ -226,9 +226,17 @@ class API extends \Piwik\Plugin\API
      * Loads reports metadata, then return the requested one,
      * matching optional API parameters.
      */
-    public function getMetadata($idSite, $apiModule, $apiAction, $apiParameters = array(), $language = false,
-                                $period = false, $date = false, $hideMetricsDoc = false, $showSubtableReports = false)
-    {
+    public function getMetadata(
+        $idSite,
+        $apiModule,
+        $apiAction,
+        $apiParameters = array(),
+        $language = false,
+        $period = false,
+        $date = false,
+        $hideMetricsDoc = false,
+        $showSubtableReports = false
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         if ($language) {
@@ -253,9 +261,14 @@ class API extends \Piwik\Plugin\API
      * @param int $idSite
      * @return array
      */
-    public function getReportMetadata($idSites = '', $period = false, $date = false, $hideMetricsDoc = false,
-                                      $showSubtableReports = false, $idSite = false)
-    {
+    public function getReportMetadata(
+        $idSites = '',
+        $period = false,
+        $date = false,
+        $hideMetricsDoc = false,
+        $showSubtableReports = false,
+        $idSite = false
+    ) {
         if (empty($idSite) && !empty($idSites)) {
             if (is_array($idSites)) {
                 $idSite = array_shift($idSites);
@@ -272,11 +285,23 @@ class API extends \Piwik\Plugin\API
         return $metadata;
     }
 
-    public function getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment = false,
-                                       $apiParameters = false, $idGoal = false, $language = false,
-                                       $showTimer = true, $hideMetricsDoc = false, $idSubtable = false, $showRawMetrics = false,
-                                       $format_metrics = null, $idDimension = false)
-    {
+    public function getProcessedReport(
+        $idSite,
+        $period,
+        $date,
+        $apiModule,
+        $apiAction,
+        $segment = false,
+        $apiParameters = false,
+        $idGoal = false,
+        $language = false,
+        $showTimer = true,
+        $hideMetricsDoc = false,
+        $idSubtable = false,
+        $showRawMetrics = false,
+        $format_metrics = null,
+        $idDimension = false
+    ) {
         Piwik::checkUserHasViewAccess($idSite);
 
         $processed = $this->processedReport->getProcessedReport($idSite, $period, $date, $apiModule, $apiAction, $segment,
@@ -554,7 +579,7 @@ class API extends \Piwik\Plugin\API
                     );
                     // we don't look at row columns since this could include rows that won't work eg Other summary rows. etc
                     // and it is generally not reliable.
-                    if (!empty($segment) && preg_match('/^' . implode('|',$remove) . '/', $segment)) {
+                    if (!empty($segment) && preg_match('/^' . implode('|', $remove) . '/', $segment)) {
                         $values[] = urldecode(urldecode(str_replace($remove, '', $segment)));
                     }
                 }
@@ -597,7 +622,6 @@ class API extends \Piwik\Plugin\API
             if (empty($values)) {
                 throw new \Exception("There was no data to suggest for $segmentName");
             }
-
         } else {
             $values = $this->getSuggestedValuesForSegmentName($idSite, $segment, $maxSuggestionsToReturn);
         }
@@ -776,7 +800,7 @@ class API extends \Piwik\Plugin\API
             ];
         }
 
-        usort($sortArray, function($a, $b) {
+        usort($sortArray, function ($a, $b) {
             if ($a['count'] == $b['count']) {
                 return strcmp($a['value'], $b['value']);
             }
@@ -848,7 +872,7 @@ class Plugin extends \Piwik\Plugin
             $out .= "piwik.isPagesComparisonApiDisabled = true;\n";
         }
     }
-    
+
     public function getClientSideTranslationKeys(&$translations)
     {
         $translations[] = 'API_Glossary';
